@@ -548,6 +548,23 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
+    // Build social share URLs
+    const shareText = `Check out ${name} at Mergington High School! ${details.description}. Schedule: ${formattedSchedule}`;
+    const shareUrl = window.location.href;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + " " + shareUrl)}`;
+
+    const shareSection = `
+      <div class="share-section">
+        <span class="share-label">Share:</span>
+        <a class="share-btn share-twitter" href="${twitterUrl}" target="_blank" rel="noopener noreferrer" title="Share on X (Twitter)" aria-label="Share ${name} on X (Twitter)">𝕏</a>
+        <a class="share-btn share-facebook" href="${facebookUrl}" target="_blank" rel="noopener noreferrer" title="Share on Facebook" aria-label="Share ${name} on Facebook">f</a>
+        <a class="share-btn share-whatsapp" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" title="Share on WhatsApp" aria-label="Share ${name} on WhatsApp">💬</a>
+        <button class="share-btn share-copy" title="Copy link to clipboard" aria-label="Copy ${name} link to clipboard">🔗</button>
+      </div>
+    `;
+
     activityCard.innerHTML = `
       ${tagHtml}
       <h4>${name}</h4>
@@ -598,7 +615,24 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      ${shareSection}
     `;
+
+    // Add copy-link button handler
+    const copyButton = activityCard.querySelector(".share-copy");
+    if (copyButton) {
+      copyButton.addEventListener("click", () => {
+        const text = shareText + "\n" + shareUrl;
+        if (navigator.clipboard) {
+          navigator.clipboard
+            .writeText(text)
+            .then(() => showMessage("Activity link copied to clipboard!", "success"))
+            .catch(() => showMessage("Could not copy link. Please copy the URL from your browser.", "error"));
+        } else {
+          showMessage("Copy is not supported in this browser. Please copy the URL manually.", "error");
+        }
+      });
+    }
 
     // Add click handlers for delete buttons
     const deleteButtons = activityCard.querySelectorAll(".delete-participant");
