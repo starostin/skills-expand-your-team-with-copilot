@@ -617,11 +617,19 @@ footer {
   position: absolute;
   top: 10px;
   right: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 #user-status {
   display: flex;
   align-items: center;
+}
+
+#dark-mode-toggle {
+  font-size: 1.1rem;
+  padding: 0.25rem 0.625rem;
 }
 
 #user-info {
@@ -663,4 +671,47 @@ footer {
 
 #logout-button:hover {
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ========================
+   Dark Mode
+   ======================== */
+body.dark-mode {
+  --background: #121212;
+  --surface: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #aaaaaa;
+  --border: #333333;
+  --border-light: #2a2a2a;
+  --border-focus: #555555;
+  --success-light: #1b3a1d;
+  --warning-light: #3a2e00;
+  --error-light: #3a0e0e;
+  --info-light: #0a2a30;
+}
+
+body.dark-mode section,
+body.dark-mode .sidebar-filters,
+body.dark-mode .modal-content {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .activity-card {
+  border-color: var(--border);
+}
+
+body.dark-mode .capacity-bar-fill {
+  filter: brightness(0.85);
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #2a2a2a;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+body.dark-mode input::placeholder {
+  color: var(--text-secondary);
 }
